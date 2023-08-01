@@ -1,0 +1,6 @@
+httpx==0.24.0
+allure-pytest==2.13.2
+pydantic==1.10.7
+python-dotenv==1.0.0
+validators==0.20.0
+waiting==1.4.1
