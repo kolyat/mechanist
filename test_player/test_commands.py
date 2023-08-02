@@ -3,6 +3,7 @@ import allure
 
 from api.mono.devices import device as device_api, models
 from core.settings import base_settings
+from core import improc
 
 
 @allure.epic('Player remote control')
@@ -12,7 +13,9 @@ def test_screenshot(api_client, device_name, device_id):
     device = device_api.Device(api_client)
     with allure.step('Retrieve screenshot from device'):
         screenshot = device.retrieve_screenshot(device_id)
-        # TODO: check screenshot is JPG
+        imp = improc.ImageProcessing()
+        imp.load_from_bytes(screenshot)
+        assert imp.is_source_image()
 
 
 @allure.epic('Player remote control')
