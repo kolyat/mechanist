@@ -2,6 +2,8 @@
 
 `client.py` - base client-side tools.
 
+`improc.py` - image processing tools.
+
 `logger.py` - logging module.
 
 `misc.py` contains miscellaneous tools and functions (e.g., object transformation, decorators).
