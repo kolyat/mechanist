@@ -9,6 +9,6 @@ class Status(base.StrEnum):
     STOPPED = 'stopped'
 
 
-class CampaignUpdateModel(pydantic.BaseModel,
-                          metaclass=base.PartialModelMetaclass):
+@base.optional
+class CampaignUpdateModel(pydantic.BaseModel):
     status: Status

@@ -1,5 +1,5 @@
+from typing import Optional
 import pydantic
-from pydantic import fields
 
 from core.settings import base_settings
 from core.client import Base
@@ -7,8 +7,8 @@ from core.client import Base
 
 class MultistepModel(pydantic.BaseModel):
     session_id: str = None
-    login: fields.Optional[str]
-    password: fields.Optional[str]
+    login: Optional[str]
+    password: Optional[str]
 
 
 class MultistepAuth(Base):

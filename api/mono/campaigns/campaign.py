@@ -36,7 +36,7 @@ class Campaign(Base):
         """
         payload = self.prepare_json(models.CampaignUpdateModel(
                 status=models.Status.PLAYING
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_campaign(campaign_id, payload)
         assert response.status_code == 200, \
             f'Could not play campaign {campaign_id}'
@@ -52,7 +52,7 @@ class Campaign(Base):
         """
         payload = self.prepare_json(models.CampaignUpdateModel(
                 status=models.Status.PAUSED
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_campaign(campaign_id, payload)
         assert response.status_code == 200, \
             f'Could not pause campaign {campaign_id}'

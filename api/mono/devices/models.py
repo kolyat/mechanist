@@ -163,11 +163,10 @@ class Interface(pydantic.BaseModel):
     is_active: bool
 
     # Validators
-    _is_private_ip = pydantic.validator('private_ip',
-                                        allow_reuse=True)(misc.is_ip)
-    _is_hardware_address = pydantic.validator('hardware_address',
-                                              allow_reuse=True)(misc.is_mac)
-    _is_net_mask = pydantic.validator('net_mask', allow_reuse=True)(misc.is_ip)
+    _is_private_ip = pydantic.field_validator('private_ip')(misc.is_ip)
+    _is_hardware_address = \
+        pydantic.field_validator('hardware_address')(misc.is_mac)
+    _is_net_mask = pydantic.field_validator('net_mask')(misc.is_ip)
 
 
 class Network(pydantic.BaseModel):
@@ -211,6 +210,7 @@ class Repeat(pydantic.BaseModel):
     unit: RepeatUnit
 
 
+@base.optional
 class Command(pydantic.BaseModel):
     id: Optional[int]
     action: Action
@@ -250,8 +250,8 @@ class DeviceRetrieveModel(pydantic.BaseModel):
     permission: int
 
 
-class DeviceUpdateModel(pydantic.BaseModel,
-                        metaclass=base.PartialModelMetaclass):
+@base.optional
+class DeviceUpdateModel(pydantic.BaseModel):
     ads_zone_resolution: AdsZoneResolution
     commands: List[Command]
     custom_fields: List[CustomField]

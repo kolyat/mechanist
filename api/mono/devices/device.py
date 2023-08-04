@@ -143,7 +143,7 @@ class Device(Base):
                     event=models.ActionEvent.COMMAND
                 )
             )]
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_device(device_id, payload)
         assert response.status_code == 200, \
             f'Could not execute "escape" command for device {device_id}'
@@ -164,7 +164,7 @@ class Device(Base):
                     event=models.ActionEvent.COMMAND
                 )
             )]
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_device(device_id, payload)
         assert response.status_code == 200, \
             f'Could not execute "continue" command for device {device_id}'
@@ -185,7 +185,7 @@ class Device(Base):
                     event=models.ActionEvent.COMMAND
                 )
             )]
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_device(device_id, payload)
         assert response.status_code == 200, \
             f'Could not execute "restart" command for device {device_id}'
@@ -206,7 +206,7 @@ class Device(Base):
                     event=models.ActionEvent.COMMAND
                 )
             )]
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_device(device_id, payload)
         assert response.status_code == 200, \
             f'Could not execute "reboot" command for device {device_id}'
@@ -227,7 +227,7 @@ class Device(Base):
                     event=models.ActionEvent.UPDATE
                 )
             )]
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_device(device_id, payload)
         assert response.status_code == 200, \
             f'Could not execute "update" command for device {device_id}'
@@ -252,7 +252,7 @@ class Device(Base):
                     params=[degrees]
                 )
             )]
-        ).dict(exclude_none=True))
+        ).model_dump(exclude_none=True))
         response = self.put_device(device_id, payload)
         assert response.status_code == 200, \
             f'Could not "rotate screen" to {degrees} for device {device_id}'
