@@ -1,7 +1,6 @@
 from typing import Callable, Any
 import json
 import httpx
-import pydantic
 
 from . import settings, logger
 
