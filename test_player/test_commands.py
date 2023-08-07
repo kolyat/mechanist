@@ -19,8 +19,8 @@ class TestCommands:
         with allure.step(f'Retrieve screenshot from {device_name}'):
             screenshot = device.retrieve_screenshot(device_id)
             imp = improc.ImageProcessing()
-            imp.load_from_bytes(screenshot)
-            assert imp.is_source_image()
+            imp.load_target_from_bytes(screenshot)
+            assert imp.is_target_image()
 
     @allure.feature('Exit and continue playback')
     def test_escape_and_continue_playback(self, api_client,

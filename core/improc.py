@@ -3,21 +3,21 @@ from PIL import Image
 
 
 class ImageProcessing:
-    source = None
+    target = None
 
-    def load_from_bytes(self, raw: bytes) -> None:
-        """Load image from bytes.
+    def load_target_from_bytes(self, raw: bytes) -> None:
+        """Load target image from bytes.
 
         :param raw: array of bytes
         :type raw: bytes
         """
         stream = io.BytesIO(raw)
-        self.source = Image.open(stream)
+        self.target = Image.open(stream)
 
-    def is_source_image(self) -> bool:
-        """Check integrity of source image.
+    def is_target_image(self) -> bool:
+        """Check integrity of target image.
 
         :return: True if no problems found.
         """
-        self.source.verify()
+        self.target.verify()
         return True
