@@ -1,11 +1,30 @@
 import io
+import logging
 from PIL import Image
 import cv2
+import numpy
 from matplotlib import pyplot
 
 
+RESCALE_SIZE = (640, 360)
+HIST_CHANNELS = (0, 1)
+HIST_BINS = (180, 256)
+HIST_RANGE = (0, 180, 0, 256)
+ROUND_PRECISION = 3
+THRESHOLD = 99.5
+
+
 class ImageProcessing:
+    source = None
     target = None
+
+    def load_source_from_file(self, fname: str) -> None:
+        """Load source image from file.
+
+        :param fname: filename
+        :type fname: str
+        """
+        self.source = cv2.imread(fname)
 
     def load_target_from_bytes(self, raw: bytes) -> None:
         """Load target image from bytes.
@@ -23,6 +42,42 @@ class ImageProcessing:
         """
         self.target.verify()
         return True
+
+    def compare_images(self) -> bool:
+        """Compare source and target images using Hue-Saturation histograms.
+
+        :return: True if result more or equal predefined THRESHOLD, else False
+        """
+        source_r = cv2.resize(self.source, RESCALE_SIZE,
+                              interpolation=cv2.INTER_LINEAR)
+        target_r = cv2.resize(numpy.array(self.target), RESCALE_SIZE,
+                              interpolation=cv2.INTER_LINEAR)
+
+        source_hsv = cv2.cvtColor(source_r, cv2.COLOR_BGR2HSV)
+        target_hsv = cv2.cvtColor(target_r, cv2.COLOR_RGB2HSV)
+
+        source_hist = cv2.calcHist(
+            [source_hsv], HIST_CHANNELS, None, HIST_BINS, HIST_RANGE,
+            accumulate=False
+        )
+        cv2.normalize(source_hist, source_hist, alpha=0, beta=1,
+                      norm_type=cv2.NORM_MINMAX)
+        target_hist = cv2.calcHist(
+            [target_hsv], HIST_CHANNELS, None, HIST_BINS, HIST_RANGE,
+            accumulate=False
+        )
+        cv2.normalize(target_hist, target_hist, alpha=0, beta=1,
+                      norm_type=cv2.NORM_MINMAX)
+
+        result = round(
+            cv2.compareHist(source_hist, target_hist, cv2.HISTCMP_CORREL)*100,
+            ROUND_PRECISION
+        )
+        logging.debug(f'Compare result = {result}')
+        if result >= THRESHOLD:
+            return True
+        else:
+            return False
 
 
 def draw_hist_rgb(image, normalize=False, bins=(256,), ranges=(0, 256)):
