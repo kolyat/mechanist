@@ -9,3 +9,4 @@ validators==0.20.0
 waiting==1.4.1
 Pillow==9.5.0
 opencv-python==4.8.0.74
+matplotlib==3.5.3
