@@ -5,16 +5,14 @@ import pytest
 
 from api.mono.auth import multistep
 from core.client import get_http_client
+from core import misc
 
 
 @pytest.fixture(scope='session')
 def api_client(tmp_path_factory, worker_id):
     auth = multistep.MultistepAuth(get_http_client())
     if worker_id != "master":
-        session_file = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            'session.cookies'
-        )
+        session_file = misc.get_path(__file__, 'session.cookies')
         with filelock.FileLock(session_file + '.lock'):
             if os.path.isfile(session_file):
                 with open(session_file, 'rb+') as f:

@@ -21,6 +21,7 @@ class Settings(pydantic_settings.BaseSettings):
 
     platform_id: int
     devices: list
+    campaigns: dict
 
     polling_interval: int
 

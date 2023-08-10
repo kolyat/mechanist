@@ -1,4 +1,5 @@
 from typing import Union
+import os.path
 import httpx
 import validators
 
@@ -70,3 +71,18 @@ def full_url(method):
         new_args[2] = url
         return method(*new_args, **kwargs)
     return wrapper
+
+
+def get_path(sfile: str, *args) -> str:
+    """Construct absolute path (to a destination file) based on source
+    file path.
+
+    :param sfile: source file (must be always __file__)
+    :type sfile: str
+
+    :param args: parts of destination file ('subdir', 'some.file')
+
+    :return: absolute destination path
+    :rtype: str
+    """
+    return os.path.join(os.path.dirname(os.path.abspath(sfile)), *args)
