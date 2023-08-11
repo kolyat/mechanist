@@ -1,3 +1,4 @@
+import os
 import pydantic
 import pydantic_settings
 
@@ -25,6 +26,10 @@ class Settings(pydantic_settings.BaseSettings):
 
     polling_interval: int
 
+    tmp_path: str = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'tmp'
+    )
+
     @property
     def api_url(self) -> str:
         """Get base URL of server's API.
@@ -45,3 +50,5 @@ class Settings(pydantic_settings.BaseSettings):
 
 
 base_settings = Settings()
+if not os.path.exists(base_settings.tmp_path):
+    os.mkdir(base_settings.tmp_path)

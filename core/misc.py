@@ -74,15 +74,27 @@ def full_url(method):
 
 
 def get_path(sfile: str, *args) -> str:
-    """Construct absolute path (to a destination file) based on source
-    file path.
+    """Construct absolute path of a destination file based on
+    source file path.
 
     :param sfile: source file (must be always __file__)
     :type sfile: str
 
-    :param args: parts of destination file ('subdir', 'some.file')
+    :param args: parts of destination file (e.g., 'subdir', 'some.file')
 
     :return: absolute destination path
     :rtype: str
     """
     return os.path.join(os.path.dirname(os.path.abspath(sfile)), *args)
+
+
+def get_tmp_path(*args) -> str:
+    """Construct absolute path of a destination file based on
+    project temporary path.
+
+    :param args: parts of destination file (e.g., 'some.file')
+
+    :return: absolute destination path
+    :rtype: str
+    """
+    return os.path.join(settings.base_settings.tmp_path, *args)

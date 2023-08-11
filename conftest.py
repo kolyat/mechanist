@@ -12,7 +12,7 @@ from core import misc
 def api_client(tmp_path_factory, worker_id):
     auth = multistep.MultistepAuth(get_http_client())
     if worker_id != "master":
-        session_file = misc.get_path(__file__, 'session.cookies')
+        session_file = misc.get_tmp_path('session.cookies')
         with filelock.FileLock(session_file + '.lock'):
             if os.path.isfile(session_file):
                 with open(session_file, 'rb+') as f:
