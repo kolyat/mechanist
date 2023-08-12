@@ -5,7 +5,7 @@ import allure
 from api.mono.devices import device as device_api
 from api.mono.campaigns import campaign as campaign_api
 from core.settings import base_settings
-from core import improc, misc
+from core import improc, queue, misc
 
 
 ATTEMPTS = 3
@@ -27,12 +27,16 @@ class TestContent:
         campaign = campaign_api.Campaign(api_client)
         imp = improc.ImageProcessing()
         fname = misc.get_path(__file__, 'data', data_file)
+        q = queue.Queue(campaign_name)
 
         with allure.step(f'Load source image "{fname}"'):
             imp.load_source_from_file(fname)
+
         with allure.step(f'Play campaign "{campaign_name}" #{campaign_id}'):
             campaign.play_campaign(campaign_id)
+            q.put()
         time.sleep(5)
+
         with allure.step(f'Retrieve screenshot from {device_name} and '
                          f'compare with source image'):
             counter = ATTEMPTS
@@ -41,8 +45,13 @@ class TestContent:
                 imp.load_target_from_bytes(screenshot)
                 passed = imp.compare_images()
                 counter -= 1
-        with allure.step(f'Pause campaign "{campaign_name}" #{campaign_id}'):
-            campaign.pause_campaign(campaign_id)
+        q.get()
+
+        if q.is_empty():
+            with allure.step(f'Pause campaign "{campaign_name}" '
+                             f'#{campaign_id}'):
+                campaign.pause_campaign(campaign_id)
+
         return passed
 
     @allure.feature('JPEG image')

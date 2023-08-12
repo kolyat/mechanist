@@ -16,6 +16,7 @@ class TestCommands:
     @allure.feature('Get screenshot from a device')
     def test_screenshot(self, api_client, device_name, device_id):
         device = device_api.Device(api_client)
+
         with allure.step(f'Retrieve screenshot from {device_name}'):
             screenshot = device.retrieve_screenshot(device_id)
             imp = improc.ImageProcessing()
@@ -26,12 +27,16 @@ class TestCommands:
     def test_escape_and_continue_playback(self, api_client,
                                           device_name, device_id):
         device = device_api.Device(api_client)
+
         with allure.step(f'Escape {device_name} playback'):
             device.cmd_escape_playback(device_id)
+
         with allure.step(f'Waiting for {device_name} to be in "Pause" status'):
             device.wait_device(device_id, models.Status.PAUSE)
+
         with allure.step(f'Continue {device_name} playback'):
             device.cmd_continue_playback(device_id)
+
         with allure.step(f'Waiting for {device_name} to be in "Playback" '
                          f'status'):
             device.wait_device(device_id, models.Status.PLAYBACK)
