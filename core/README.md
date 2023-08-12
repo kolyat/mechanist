@@ -8,5 +8,7 @@
 
 `misc.py` contains miscellaneous tools and functions (e.g., object transformation, decorators).
 
+`queue.py` - working with queue.
+
 `settings.py` is for storing framework configuration. Includes ready for use `base_settings` object with general settings.
 

@@ -52,7 +52,7 @@
    cp env/example.env .env
    ```
 
-6. Make sure `TEST_USER_EMAIL`, `TEST_USER_PASSWORD`, `DEVICES` are correct.
+6. Make sure `USER_EMAIL`, `USER_PASSWORD`, `DEVICES`, `CAMPAIGNS` are correct.
 
 7. Run `pytest`.
 
