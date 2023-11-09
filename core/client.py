@@ -1,6 +1,7 @@
 from typing import Callable, Any
 import json
 import httpx
+import seleniumbase
 
 from . import settings, logger
 
@@ -77,3 +78,9 @@ def get_http_client():
             'request': [logger.log_request],
             'response': [logger.log_response]}
     )
+
+
+class Case(seleniumbase.BaseCase):
+    """Bridge class for SeleniumBase.
+    """
+    pass

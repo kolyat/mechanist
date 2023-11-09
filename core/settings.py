@@ -20,6 +20,7 @@ class Settings(pydantic_settings.BaseSettings):
     user_email: str
     user_password: str
 
+    platform_name: str
     platform_id: int
     devices: list
     campaigns: dict
@@ -38,6 +39,15 @@ class Settings(pydantic_settings.BaseSettings):
         :rtype: str
         """
         return f'{self.scheme}://api.{self.server_name}/v{self.api_version}'
+
+    @property
+    def platform_url(self) -> str:
+        """Get URL of defined platform.
+
+        :return: platform URL
+        :rtype: str
+        """
+        return f'{self.scheme}://{self.platform_name}.{self.server_name}'
 
     @property
     def user(self) -> TestUser:
